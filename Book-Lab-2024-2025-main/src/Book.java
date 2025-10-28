@@ -47,6 +47,9 @@ public class Book
 
   public String translateSentence(String sentence)
   {
+    while (sentence.indexOf(' ') > 0){
+      
+    }
     String retSentence = "";
 
 
