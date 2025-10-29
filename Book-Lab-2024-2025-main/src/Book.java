@@ -13,16 +13,18 @@ public class Book
     if (Character.isUpperCase(word.charAt(index))){
       upperyn = 1;
     }
+    word = word.toLowerCase();
 
     while ((word.charAt(index) != 'a') &&(word.charAt(index) != 'e') &&(word.charAt(index) != 'i') &&(word.charAt(index) != 'o') &&(word.charAt(index) != 'u')){
       index++;
     }
+   // System.out.println(index);
     if (index == 0){
       if (upperyn == 0){
         return word + "yay";
       }
       else{
-        return word.substring(0,1).toUpperCase()+word.toLowerCase().substring(1) + "yay";
+        return word.substring(0,1).toUpperCase()+word.substring(1).toLowerCase() + "yay";
       }
       
     }
@@ -37,16 +39,42 @@ public class Book
   
   public static int endPunctuation(String word)  //return the index of where the punctuation is at the end of a String. If it is all punctuation return 0, if there is no punctuation return -1
   {
+    boolean period = false;
+    boolean exclaim = false;
+    boolean question = false;
     if (word.indexOf('.') < 0  && word.indexOf('!') < 0&& word.indexOf('?')< 0){
       return -1;
     }
-    else if (word.indexOf('.') > 0){
+    if (word.indexOf('.') > 0){
+      period = true;
+    }
+    if (word.indexOf('!') > 0){
+      exclaim = true;
+    }
+    if (word.indexOf('?') > 0){
+      question = true;
+    }
+
+    if(period && exclaim && question){
+      return Math.min(word.indexOf('.'),Math.min(word.indexOf('!'),word.indexOf('?')));
+    }
+    else if (period && exclaim){
+      return Math.min(word.indexOf('.'),word.indexOf('!'));
+    }
+    else if (period && question){
+  
+      return Math.min(word.indexOf('.'),word.indexOf('?'));
+    }
+    else if (exclaim && question){
+      return Math.min(word.indexOf('?'),word.indexOf('!'));
+    }
+    else if (period){
       return word.indexOf('.');
     }
-    else if (word.indexOf('!') > 0){
+    else if (exclaim){
       return word.indexOf('!');
     }
-    else if (word.indexOf('?') > 0){
+    else if (question){
       return word.indexOf('?');
     }
     return 0;
@@ -57,13 +85,12 @@ public class Book
     String convertedWord = "";
     int punctuation = Book.endPunctuation(word);
     if (punctuation > 0){
-      convertedWord = Book.pigLatin(word.substring(0,punctuation)) + word.charAt(punctuation);
+      convertedWord = Book.pigLatin(word.substring(0,punctuation)) + word.substring(punctuation);
     }
     else{
       convertedWord = Book.pigLatin(word);
     }
     
-
     return convertedWord;
   }
 
