@@ -9,14 +9,30 @@ public class Book
   public static String pigLatin(String word)
   {
     int index = 0;
+    int upperyn = 0;
+    if (Character.isUpperCase(word.charAt(index))){
+      upperyn = 1;
+    }
 
     while ((word.charAt(index) != 'a') &&(word.charAt(index) != 'e') &&(word.charAt(index) != 'i') &&(word.charAt(index) != 'o') &&(word.charAt(index) != 'u')){
       index++;
     }
     if (index == 0){
-      return word + "yay";
+      if (upperyn == 0){
+        return word + "yay";
+      }
+      else{
+        return word.substring(0,1).toUpperCase()+word.toLowerCase().substring(1) + "yay";
+      }
+      
     }
-    return word.substring(index) + word.substring(0,index) + "ay";
+    if(upperyn == 0){
+      return word.substring(index) + word.substring(0,index) + "ay";
+    }
+    else{
+      return word.substring(index,index+1).toUpperCase()+ word.substring(index+1)+word.substring(0,1).toLowerCase() + "ay";
+    }
+    
   }
   
   public static int endPunctuation(String word)  //return the index of where the punctuation is at the end of a String. If it is all punctuation return 0, if there is no punctuation return -1
@@ -38,20 +54,29 @@ public class Book
 
   public static String translateWord(String word)    //to share with class
   {
+    String convertedWord = "";
     int punctuation = Book.endPunctuation(word);
-
-    String convertedWord = Book.pigLatin(word.substring(0,punctuation)) + word.charAt(punctuation);
+    if (punctuation > 0){
+      convertedWord = Book.pigLatin(word.substring(0,punctuation)) + word.charAt(punctuation);
+    }
+    else{
+      convertedWord = Book.pigLatin(word);
+    }
+    
 
     return convertedWord;
   }
 
-  public String translateSentence(String sentence)
+  public static String translateSentence(String sentence)
   {
-    while (sentence.indexOf(' ') > 0){
-      
-    }
     String retSentence = "";
-
+    
+    while (sentence.indexOf(' ') > 0){
+      int spaceindex = sentence.indexOf(' ');
+      retSentence = retSentence + Book.translateWord(sentence.substring(0,spaceindex)) + " ";
+      sentence = sentence.substring(spaceindex+1); 
+    }
+    retSentence = retSentence + Book.translateWord(sentence);
 
     return retSentence;
   }
