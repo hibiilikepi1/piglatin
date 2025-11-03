@@ -8,14 +8,22 @@ public class Book
 {
   public static String pigLatin(String word)
   {
+
+    if(word.length() == 0){
+      return word;
+    }
+    String numbers = "0123456789!?.";
+    if(numbers.indexOf(word.substring(0,1)) >= 0){
+      return word;
+    }
     int index = 0;
     int upperyn = 0;
     if (Character.isUpperCase(word.charAt(index))){
       upperyn = 1;
     }
     word = word.toLowerCase();
-
-    while ((word.charAt(index) != 'a') &&(word.charAt(index) != 'e') &&(word.charAt(index) != 'i') &&(word.charAt(index) != 'o') &&(word.charAt(index) != 'u')){
+    String vowels = "aeiouy";
+    while ((vowels.indexOf(word.substring(index,index+1)) < 0)){
       index++;
     }
    // System.out.println(index);
@@ -32,7 +40,7 @@ public class Book
       return word.substring(index) + word.substring(0,index) + "ay";
     }
     else{
-      return word.substring(index,index+1).toUpperCase()+ word.substring(index+1)+word.substring(0,1).toLowerCase() + "ay";
+      return word.substring(index,index+1).toUpperCase()+ word.substring(index+1)+word.substring(0,index).toLowerCase() + "ay";
     }
     
   }
