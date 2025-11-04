@@ -47,45 +47,13 @@ public class Book
   
   public static int endPunctuation(String word)  //return the index of where the punctuation is at the end of a String. If it is all punctuation return 0, if there is no punctuation return -1
   {
-    boolean period = false;
-    boolean exclaim = false;
-    boolean question = false;
-    if (word.indexOf('.') < 0  && word.indexOf('!') < 0&& word.indexOf('?')< 0){
-      return -1;
+    String puncString = ",.?!;:";
+    for(int i = 0; i < word.length(); i ++){
+      if (puncString.indexOf(word.charAt(i)) >= 0){
+        return i;
+      }
     }
-    if (word.indexOf('.') > 0){
-      period = true;
-    }
-    if (word.indexOf('!') > 0){
-      exclaim = true;
-    }
-    if (word.indexOf('?') > 0){
-      question = true;
-    }
-
-    if(period && exclaim && question){
-      return Math.min(word.indexOf('.'),Math.min(word.indexOf('!'),word.indexOf('?')));
-    }
-    else if (period && exclaim){
-      return Math.min(word.indexOf('.'),word.indexOf('!'));
-    }
-    else if (period && question){
-  
-      return Math.min(word.indexOf('.'),word.indexOf('?'));
-    }
-    else if (exclaim && question){
-      return Math.min(word.indexOf('?'),word.indexOf('!'));
-    }
-    else if (period){
-      return word.indexOf('.');
-    }
-    else if (exclaim){
-      return word.indexOf('!');
-    }
-    else if (question){
-      return word.indexOf('?');
-    }
-    return 0;
+    return -1;
   }
 
   public static String translateWord(String word)    //to share with class
@@ -106,7 +74,7 @@ public class Book
   {
     String retSentence = "";
     
-    while (sentence.indexOf(' ') > 0){
+    while (sentence.indexOf(' ') > 0){ //maybe make >=
       int spaceindex = sentence.indexOf(' ');
       retSentence = retSentence + Book.translateWord(sentence.substring(0,spaceindex)) + " ";
       sentence = sentence.substring(spaceindex+1); 
